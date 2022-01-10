@@ -21,32 +21,17 @@
 }
 
 .timer > footer {
+  min-block-size: 4rem;
+
   display: grid;
   place-items: center;
 }
 
-header {
-  display: grid;
-  grid-auto-flow: column;
-  grid-template-columns: [icon-start] 3rem [title] 1fr [icon-end] 3rem;
-  align-items: center;
-}
-
 header > h1 {
-  grid-area: title;
   margin: 0;
   text-align: center;
   font-weight: 500;
   font-size: 1.5rem;
-}
-
-header > .icon:first-of-type {
-  grid-area: icon-start;
-}
-
-header > .icon:last-of-type {
-  grid-area: icon-end;
-  justify-self: flex-end;
 }
 
 .icon {
@@ -110,41 +95,6 @@ time > span > small {
   font-variant-numeric: tabular-nums;
 }
 
-.numkey {
-  --spacing-multiplier: 3;
-  --multiplied-gap: calc(var(--keypad-col-gap) * var(--spacing-multiplier));
-  --offset-timer-size: calc(var(--timer-inline-size) - var(--multiplied-gap));
-  --key-size: calc(var(--offset-timer-size) / 3);
-
-  inline-size: var(--key-size);
-  block-size: var(--key-size);
-
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-
-  font-size: 2.5rem;
-
-  appearance: none;
-  border: none;
-  background: none;
-  color: inherit;
-  cursor: pointer;
-
-  transition: background-color 0.5s ease;
-}
-
-.numkey:focus,
-.numkey:hover {
-  border: 1px solid var(--surface-2);
-}
-
-.numkey:active {
-  transition: none;
-  background: var(--surface-2);
-}
-
 button:focus,
 button:hover {
   outline-offset: 5px;
@@ -162,6 +112,7 @@ button:hover {
   border-radius: 50%;
   box-shadow: 0 10px 5px hsl(var(--hue) 5% 10%);
   border: none;
+  cursor: pointer;
 
   position: relative;
 }
