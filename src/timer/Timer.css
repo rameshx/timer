@@ -1,0 +1,183 @@
+.timer {
+  --timer-inline-size: 25rem;
+
+  max-inline-size: var(--timer-inline-size);
+  display: grid;
+  gap: 3rem;
+  padding: 2rem;
+  background: var(--surface-1);
+  box-shadow: 0 2.8px 2.2px hsl(0 0% 0% / 2%), 0 6.7px 5.3px hsl(0 0% 0% / 2.8%),
+    0 12.5px 10px hsl(0 0% 0% / 3.5%), 0 22.3px 17.9px hsl(0 0% 0% / 4.2%),
+    0 41.8px 33.4px hsl(0 0% 0% / 5%), 0 100px 80px hsl(0 0% 0% / 7%);
+  border: 1px solid var(--surface-2);
+  border-radius: 5px;
+}
+
+.timer > hr {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid var(--surface-2);
+  margin-block-end: -1rem;
+}
+
+.timer > footer {
+  display: grid;
+  place-items: center;
+}
+
+header {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: [icon-start] 3rem [title] 1fr [icon-end] 3rem;
+  align-items: center;
+}
+
+header > h1 {
+  grid-area: title;
+  margin: 0;
+  text-align: center;
+  font-weight: 500;
+  font-size: 1.5rem;
+}
+
+header > .icon:first-of-type {
+  grid-area: icon-start;
+}
+
+header > .icon:last-of-type {
+  grid-area: icon-end;
+  justify-self: flex-end;
+}
+
+.icon {
+  inline-size: 3rem;
+  block-size: 3rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  appearance: none;
+  border: none;
+  background: none;
+  padding: 0;
+  border-radius: 50%;
+}
+
+.icon:focus,
+.icon:hover {
+  outline-offset: 5px;
+  background: var(--surface-2);
+}
+
+.icon > svg {
+  fill: var(--text-2);
+  height: 50%;
+}
+
+time {
+  font-size: 3.5rem;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  color: var(--brand-1);
+
+  display: flex;
+  gap: 1ch;
+  justify-content: space-around;
+  align-items: center;
+}
+
+time > span {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  inline-size: 2.5ch;
+}
+
+time > span > small {
+  font-size: 45%;
+}
+
+.keypad {
+  --keypad-row-gap: 2rem;
+  --keypad-col-gap: 3rem;
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  gap: var(--keypad-row-gap) var(--keypad-col-gap);
+
+  font-variant-numeric: tabular-nums;
+}
+
+.numkey {
+  --spacing-multiplier: 3;
+  --multiplied-gap: calc(var(--keypad-col-gap) * var(--spacing-multiplier));
+  --offset-timer-size: calc(var(--timer-inline-size) - var(--multiplied-gap));
+  --key-size: calc(var(--offset-timer-size) / 3);
+
+  inline-size: var(--key-size);
+  block-size: var(--key-size);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+
+  font-size: 2.5rem;
+
+  appearance: none;
+  border: none;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+
+  transition: background-color 0.5s ease;
+}
+
+.numkey:focus,
+.numkey:hover {
+  border: 1px solid var(--surface-2);
+}
+
+.numkey:active {
+  transition: none;
+  background: var(--surface-2);
+}
+
+button:focus,
+button:hover {
+  outline-offset: 5px;
+  outline-color: var(--brand-1);
+}
+
+.fab {
+  inline-size: 4rem;
+  block-size: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--brand-1);
+  border-radius: 50%;
+  box-shadow: 0 10px 5px hsl(var(--hue) 5% 10%);
+  border: none;
+
+  position: relative;
+}
+
+.fab:focus,
+.fab:hover {
+  outline-offset: 5px;
+  background: var(--brand-1-focus);
+}
+
+.fab > svg {
+  height: 50%;
+  fill: var(--surface-1);
+}
+
+.fab:active {
+  top: 1px;
+  box-shadow: 0 6px 5px hsl(var(--hue) 5% 10%);
+}

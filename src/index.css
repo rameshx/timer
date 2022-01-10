@@ -1,13 +1,34 @@
+:root {
+  --hue: 220;
+
+  --surface-1: hsl(var(--hue) 6% 12%);
+  --surface-2: hsl(var(--hue) 5% 30%);
+  --text-1: hsl(var(--hue) 10% 90%);
+  --text-2: hsl(var(--hue) 10% 80%);
+  --brand-1: hsl(var(--hue) 50% 67%);
+  --brand-1-focus: hsl(var(--hue) 50% 77%);
+}
+
+html {
+  block-size: 100%;
+  inline-size: 100%;
+  background: var(--surface-2);
+  color: var(--text-1);
+}
+
 body {
   margin: 0;
+  min-block-size: 100%;
+  min-inline-size: 100%;
+  box-sizing: border-box;
+
+  display: grid;
+  place-content: center;
+  gap: 2ch;
+
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
 }
