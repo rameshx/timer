@@ -23,4 +23,4 @@ export const secondsToTime = (totalSeconds: number): Time => {
     return [hours, minutes, secs].join('');
 }
 
-export const isTimeRemaining = (time: Time) => !!time && time.split('').some((el) => el !== '0');
+export const isTimeTruthy = (time: Time) => !!time && time.split('').some((el) => el !== '0');
