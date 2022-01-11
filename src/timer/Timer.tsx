@@ -1,6 +1,6 @@
 import { FC, useMemo, useState } from 'react';
 import { Play } from '../common/Play';
-import { Delete } from '../common/Delete';
+import { Backspace } from '../common/Backspace';
 import { Countdown } from '../countdown/Countdown';
 import { Numkey } from '../numkey/Numkey';
 import { Time } from '../Timer.types';
@@ -26,7 +26,7 @@ export const Timer: FC = () => {
     });
   };
 
-  const handleDelete = () => {
+  const handleBackspace = () => {
     setTime((prevTime) =>
       !prevTime ? prevTime : prevTime.slice(0, prevTime.length - 1)
     );
@@ -36,12 +36,17 @@ export const Timer: FC = () => {
     setRunning(true);
   };
 
+  const handleDelete = () => {
+    setRunning(false);
+    setTime('');
+  };
+
   return (
     <div className="timer">
       <header>
         <h1>Timer</h1>
       </header>
-      {running && <Countdown startTime={time} />}
+      {running && <Countdown startTime={time} onDelete={handleDelete}/>}
       {!running && (
         <>
           <time className="output">
@@ -57,8 +62,8 @@ export const Timer: FC = () => {
               {seconds}
               <small>s</small>
             </span>
-            <button onClick={handleDelete} className="icon">
-              <Delete />
+            <button onClick={handleBackspace} className="icon">
+              <Backspace />
             </button>
           </time>
           <hr />
@@ -71,15 +76,14 @@ export const Timer: FC = () => {
               />
             ))}
           </div>
+          <footer>
+            {showStart && (
+              <button onClick={handleStart} className="fab gcs-2">
+                <Play />
+              </button>
+            )}
+          </footer>
         </>
-      )}
-
-      {showStart && (
-        <footer>
-          <button onClick={handleStart} className="fab">
-            <Play />
-          </button>
-        </footer>
       )}
     </div>
   );

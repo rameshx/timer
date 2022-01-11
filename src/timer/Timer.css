@@ -26,6 +26,7 @@
 .timer > footer {
   min-block-size: 4rem;
 
+  align-self: end;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
@@ -118,7 +119,6 @@ button:hover {
   box-shadow: 0 10px 5px hsl(var(--hue) 5% 10%);
   border: none;
   cursor: pointer;
-
   position: relative;
 }
 
@@ -138,11 +138,6 @@ button:hover {
   box-shadow: 0 6px 5px hsl(var(--hue) 5% 10%);
 }
 
-.btn {
-  border: none;
-  cursor: pointer;
-  background: none;
-  color: inherit;
-
-  font-size: 1rem;
+.gcs-2 {
+  grid-column-start: 2;
 }

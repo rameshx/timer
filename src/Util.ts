@@ -23,4 +23,11 @@ export const secondsToTime = (totalSeconds: number): Time => {
     return [hours, minutes, secs].join('');
 }
 
+export const getProgress = (totalTime: Time, currentTime: Time) => {
+    const a = timeToSeconds(totalTime);
+    const b = timeToSeconds(currentTime);
+
+    return 100 - Math.floor(((a - b) * 100) / a);
+}
+
 export const isTimeTruthy = (time: Time) => !!time && time.split('').some((el) => el !== '0');
