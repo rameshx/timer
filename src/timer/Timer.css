@@ -1,6 +1,7 @@
 .timer {
   --timer-inline-size: 25rem;
 
+  min-block-size: 49rem; 
   max-inline-size: var(--timer-inline-size);
   display: grid;
   gap: 3rem;
