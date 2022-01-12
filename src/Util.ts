@@ -2,8 +2,8 @@ import { Time } from "./Timer.types";
 
 export const NUMKEYS = [1,2,3,4,5,6,7,8,9,0].map(String);
 export const INPUT_TIME_MAX_LENGTH = 6;
-export const COUNTDOWN_TIME_MAX_LENGTH = 6;
 export const DEFAULT_PROGRESS = 100;
+export const COUNTDOWN_DELAY = 1000;
 
 export const formatInputTime = (time: Time) => {
     const paddedTime = time.padStart(INPUT_TIME_MAX_LENGTH, '0');

@@ -6,6 +6,7 @@ import { Play } from '../svgs/Play';
 import { Reset } from '../svgs/Reset';
 import { Time } from '../Timer.types';
 import {
+  COUNTDOWN_DELAY,
   DEFAULT_PROGRESS,
   getProgress,
   inputTimeToSeconds,
@@ -43,10 +44,10 @@ const ProgressRing: FC<ProgressRingProps> = ({ radius, stroke, progress }) => {
 
 interface CountdownProps {
   startTime: Time;
-  onDelete: () => void;
+  onBackOrDelete: () => void;
 }
 
-export const Countdown: FC<CountdownProps> = ({ startTime, onDelete }) => {
+export const Countdown: FC<CountdownProps> = ({ startTime, onBackOrDelete }) => {
   const [remainingSeconds, setRemainingSeconds] = useState<number>(() =>
     inputTimeToSeconds(startTime)
   );
@@ -78,7 +79,7 @@ export const Countdown: FC<CountdownProps> = ({ startTime, onDelete }) => {
         }
         return prevSeconds - 1;
       });
-    }, 1000);
+    }, COUNTDOWN_DELAY);
   }, []);
 
   const pauseTimer = () => {
@@ -91,9 +92,9 @@ export const Countdown: FC<CountdownProps> = ({ startTime, onDelete }) => {
     startTimer();
   };
 
-  const deleteTimer = () => {
+  const handleBackOrDelete = () => {
     clearTimer();
-    onDelete();
+    onBackOrDelete();
   };
 
   const resetTimer = () => {
@@ -113,7 +114,7 @@ export const Countdown: FC<CountdownProps> = ({ startTime, onDelete }) => {
   return (
     <>
       <div className="countdown-container">
-        <ProgressRing radius={115} stroke={4} progress={progress} />
+        <ProgressRing radius={115} stroke={4} progress={progress} /> 
         <time className={`countdown${pause ? ' pause' : ''}`}>
           <span>{hours}</span>
           <span>:</span>
@@ -125,15 +126,14 @@ export const Countdown: FC<CountdownProps> = ({ startTime, onDelete }) => {
 
       <footer>
         {isTimeLeft ? (
-          <button onClick={deleteTimer} className={`fab delete`}>
+          <button onClick={handleBackOrDelete} className={`fab delete`}>
             <Delete />
           </button>
         ) : (
-          <button onClick={deleteTimer} className="fab">
+          <button onClick={handleBackOrDelete} className="fab">
             <Back />
           </button>
         )}
-
         {isTimeLeft && (
           <>
             {pause ? (
@@ -147,11 +147,9 @@ export const Countdown: FC<CountdownProps> = ({ startTime, onDelete }) => {
             )}
           </>
         )}
-        {
-          <button onClick={resetTimer} className="fab reset">
-            <Reset />
-          </button>
-        }
+        <button onClick={resetTimer} className="fab reset">
+          <Reset />
+        </button>
       </footer>
     </>
   );

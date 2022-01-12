@@ -3,19 +3,68 @@ import { Play } from '../svgs/Play';
 import { Backspace } from '../svgs/Backspace';
 import { Countdown } from '../countdown/Countdown';
 import { Numkey } from '../numkey/Numkey';
-import { Time } from '../Timer.types';
-import { formatInputTime, isTimeTruthy, INPUT_TIME_MAX_LENGTH, NUMKEYS } from '../Util';
+import { Content, Time } from '../Timer.types';
+import {
+  formatInputTime,
+  isTimeTruthy,
+  INPUT_TIME_MAX_LENGTH,
+  NUMKEYS,
+} from '../Util';
 
 import './Timer.css';
 
+interface TimerInputProps {
+  time: Time;
+  onBackspace: () => void;
+  onNumkeyClick: (numkey: string) => void;
+}
+
+const TimerInput: FC<TimerInputProps> = ({
+  time,
+  onBackspace,
+  onNumkeyClick,
+}) => {
+  const [hours, minutes, seconds] = useMemo(
+    () => formatInputTime(time),
+    [time]
+  );
+
+  return (
+    <>
+      <time className="output">
+        <span>
+          {hours}
+          <small>h</small>
+        </span>
+        <span>
+          {minutes}
+          <small>m</small>
+        </span>
+        <span>
+          {seconds}
+          <small>s</small>
+        </span>
+        <button onClick={onBackspace} className="icon">
+          <Backspace />
+        </button>
+      </time>
+      <hr />
+      <div className="keypad">
+        {NUMKEYS.map((numkey) => (
+          <Numkey key={numkey} onClick={onNumkeyClick} numkey={numkey} />
+        ))}
+      </div>
+    </>
+  );
+};
+
 export const Timer: FC = () => {
   const [time, setTime] = useState<Time>('');
-  const [running, setRunning] = useState(false);
+  const [content, setContent] = useState<Content>(Content.Input);
 
-  const [hours, minutes, seconds] = useMemo(() => formatInputTime(time), [time]);
   const showStart = useMemo(
-    () => isTimeTruthy(time) && !running,
-    [time, running]
+    () => isTimeTruthy(time) && content === Content.Input,
+    [time, content]
   );
 
   const handleNumkeyClick = (numkey: string) => {
@@ -33,11 +82,11 @@ export const Timer: FC = () => {
   };
 
   const handleStart = () => {
-    setRunning(true);
+    setContent(Content.Countdown);
   };
 
-  const handleDelete = () => {
-    setRunning(false);
+  const handleBackOrDelete = () => {
+    setContent(Content.Input);
     setTime('');
   };
 
@@ -46,44 +95,26 @@ export const Timer: FC = () => {
       <header>
         <h1>Timer</h1>
       </header>
-      {running && <Countdown startTime={time} onDelete={handleDelete}/>}
-      {!running && (
-        <>
-          <time className="output">
-            <span>
-              {hours}
-              <small>h</small>
-            </span>
-            <span>
-              {minutes}
-              <small>m</small>
-            </span>
-            <span>
-              {seconds}
-              <small>s</small>
-            </span>
-            <button onClick={handleBackspace} className="icon">
-              <Backspace />
+      {content === Content.Countdown && (
+        <Countdown startTime={time} onBackOrDelete={handleBackOrDelete} />
+      )}
+
+      {content === Content.Input && (
+        <TimerInput
+          time={time}
+          onBackspace={handleBackspace}
+          onNumkeyClick={handleNumkeyClick}
+        />
+      )}
+
+      {content === Content.Input && (
+        <footer>
+          {showStart && (
+            <button onClick={handleStart} className="fab gcs-2">
+              <Play />
             </button>
-          </time>
-          <hr />
-          <div className="keypad">
-            {NUMKEYS.map((numkey) => (
-              <Numkey
-                key={numkey}
-                onClick={handleNumkeyClick}
-                numkey={numkey}
-              />
-            ))}
-          </div>
-          <footer>
-            {showStart && (
-              <button onClick={handleStart} className="fab gcs-2">
-                <Play />
-              </button>
-            )}
-          </footer>
-        </>
+          )}
+        </footer>
       )}
     </div>
   );
