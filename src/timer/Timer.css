@@ -1,12 +1,13 @@
 .timer {
   --timer-inline-size: 25rem;
-  --timer-block-size: 49rem;
+  --timer-block-size: 48rem;
 
-  min-block-size: var(--timer-block-size); 
-  max-inline-size: var(--timer-inline-size);
+  block-size: var(--timer-block-size); 
   inline-size: var(--timer-inline-size);
+
   display: grid;
-  gap: 3rem;
+  gap: 1rem;
+  align-content: space-between;
   padding: 2rem;
   background: var(--surface-1);
   box-shadow: 0 2.8px 2.2px hsl(0 0% 0% / 2%), 0 6.7px 5.3px hsl(0 0% 0% / 2.8%),
@@ -20,7 +21,7 @@
   width: 100%;
   border: none;
   border-bottom: 1px solid var(--surface-2);
-  margin-block-end: -1rem;
+  margin: 0;
 }
 
 .timer > footer {
@@ -136,6 +137,36 @@ button:hover {
 .fab:active {
   top: 1px;
   box-shadow: 0 6px 5px hsl(var(--hue) 5% 10%);
+}
+
+.fab.delete {
+  background: var(--delete-bg);
+}
+
+.fab.delete > svg {
+  fill: var(--delete-color);
+}
+
+.fab.delete:focus,
+.fab.delete:hover {
+  outline-color: var(--delete-bg-focus);
+  background: var(--delete-bg-focus);
+}
+
+.fab.reset {
+  grid-column-end: -1;
+  justify-self: end;
+  background: var(--reset-bg);
+}
+
+.fab.reset > svg {
+  fill: var(--reset-color);
+}
+
+.fab.reset:focus,
+.fab.reset:hover {
+  outline-color: var(--reset-bg-focus);
+  background: var(--reset-bg-focus);
 }
 
 .gcs-2 {

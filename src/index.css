@@ -7,6 +7,14 @@
   --text-2: hsl(var(--hue) 10% 80%);
   --brand-1: hsl(var(--hue) 50% 67%);
   --brand-1-focus: hsl(var(--hue) 50% 77%);
+
+  --delete-color: hsl(350 10% 15%);
+  --delete-bg: hsl(350 50% 67%);
+  --delete-bg-focus: hsl(350 50% 77%);
+
+  --reset-color: hsl(125 10% 15%);
+  --reset-bg: hsl(125 50% 67%);
+  --reset-bg-focus: hsl(125 50% 77%);
 }
 
 html {

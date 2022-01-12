@@ -1,7 +1,9 @@
 import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Delete } from '../common/Delete';
-import { Pause } from '../common/Pause';
-import { Play } from '../common/Play';
+import { Back } from '../svgs/Back';
+import { Delete } from '../svgs/Delete';
+import { Pause } from '../svgs/Pause';
+import { Play } from '../svgs/Play';
+import { Reset } from '../svgs/Reset';
 import { Time } from '../Timer.types';
 import {
   DEFAULT_PROGRESS,
@@ -45,14 +47,19 @@ interface CountdownProps {
 }
 
 export const Countdown: FC<CountdownProps> = ({ startTime, onDelete }) => {
-  const [remainingSeconds, setRemainingSeconds] = useState<number>(() => inputTimeToSeconds(startTime));
+  const [remainingSeconds, setRemainingSeconds] = useState<number>(() =>
+    inputTimeToSeconds(startTime)
+  );
   const [pause, setPause] = useState(false);
   const [progress, setProgress] = useState(DEFAULT_PROGRESS);
 
   const timerRef = useRef<undefined | NodeJS.Timer>();
 
-  const [hours, minutes, seconds] = useMemo(() => secondsToHMS(remainingSeconds), [remainingSeconds]);
-  const showPause = useMemo(() => remainingSeconds > 0, [remainingSeconds]);
+  const [hours, minutes, seconds] = useMemo(
+    () => secondsToHMS(remainingSeconds),
+    [remainingSeconds]
+  );
+  const isTimeLeft = useMemo(() => remainingSeconds > 0, [remainingSeconds]);
 
   const clearTimer = () => {
     if (timerRef.current !== undefined) {
@@ -89,6 +96,12 @@ export const Countdown: FC<CountdownProps> = ({ startTime, onDelete }) => {
     onDelete();
   };
 
+  const resetTimer = () => {
+    setRemainingSeconds(inputTimeToSeconds(startTime));
+    startTimer();
+    setPause(false);
+  };
+
   useEffect(() => {
     startTimer();
   }, [startTimer]);
@@ -111,13 +124,17 @@ export const Countdown: FC<CountdownProps> = ({ startTime, onDelete }) => {
       </div>
 
       <footer>
-        <button
-          onClick={deleteTimer}
-          className={`fab${!showPause ? ' gcs-2' : ''}`}
-        >
-          <Delete />
-        </button>
-        {showPause && (
+        {isTimeLeft ? (
+          <button onClick={deleteTimer} className={`fab delete`}>
+            <Delete />
+          </button>
+        ) : (
+          <button onClick={deleteTimer} className="fab">
+            <Back />
+          </button>
+        )}
+
+        {isTimeLeft && (
           <>
             {pause ? (
               <button onClick={resumeTimer} className="fab gcs-2">
@@ -130,6 +147,11 @@ export const Countdown: FC<CountdownProps> = ({ startTime, onDelete }) => {
             )}
           </>
         )}
+        {
+          <button onClick={resetTimer} className="fab reset">
+            <Reset />
+          </button>
+        }
       </footer>
     </>
   );

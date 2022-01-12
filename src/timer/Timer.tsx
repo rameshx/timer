@@ -1,6 +1,6 @@
 import { FC, useMemo, useState } from 'react';
-import { Play } from '../common/Play';
-import { Backspace } from '../common/Backspace';
+import { Play } from '../svgs/Play';
+import { Backspace } from '../svgs/Backspace';
 import { Countdown } from '../countdown/Countdown';
 import { Numkey } from '../numkey/Numkey';
 import { Time } from '../Timer.types';
