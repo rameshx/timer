@@ -4,6 +4,7 @@ import { Pause } from '../common/Pause';
 import { Play } from '../common/Play';
 import { Time } from '../Timer.types';
 import {
+  DEFAULT_PROGRESS,
   formatTime,
   getProgress,
   isTimeTruthy,
@@ -27,12 +28,11 @@ const ProgressRing: FC<ProgressRingProps> = ({ radius, stroke, progress }) => {
   return (
     <svg height={radius * 2} width={radius * 2}>
       <circle
-        stroke="white"
+        stroke="var(--brand-1-focus)"
         fill="transparent"
         strokeWidth={stroke}
         strokeDasharray={circumference + ' ' + circumference}
         style={{ strokeDashoffset }}
-        stroke-width={stroke}
         r={normalizedRadius}
         cx={radius}
         cy={radius}
@@ -49,15 +49,12 @@ interface CountdownProps {
 export const Countdown: FC<CountdownProps> = ({ startTime, onDelete }) => {
   const [time, setTime] = useState<Time>(startTime);
   const [pause, setPause] = useState(false);
+  const [progress, setProgress] = useState(DEFAULT_PROGRESS);
 
   const timerRef = useRef<undefined | NodeJS.Timer>();
 
   const [hours, minutes, seconds] = useMemo(() => formatTime(time), [time]);
   const showPause = useMemo(() => isTimeTruthy(time), [time]);
-  const progress = useMemo(
-    () => getProgress(startTime, time),
-    [startTime, time]
-  );
 
   const clearTimer = () => {
     if (timerRef.current !== undefined) {
@@ -97,6 +94,10 @@ export const Countdown: FC<CountdownProps> = ({ startTime, onDelete }) => {
   useEffect(() => {
     startTimer();
   }, [startTimer]);
+
+  useEffect(() => {
+    setProgress(getProgress(startTime, time));
+  }, [startTime, time]);
 
   return (
     <>

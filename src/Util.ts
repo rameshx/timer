@@ -2,6 +2,7 @@ import { Time } from "./Timer.types";
 
 export const NUMKEYS = [1,2,3,4,5,6,7,8,9,0].map(String);
 export const MAX_TIME_LENGTH = 6;
+export const DEFAULT_PROGRESS = 100;
 
 export const formatTime = (time: Time) => {
     const paddedTime = time.padStart(MAX_TIME_LENGTH, '0');
@@ -20,7 +21,7 @@ export const secondsToTime = (totalSeconds: number): Time => {
     const minutes = Math.floor((totalSeconds % 3600) / 60);
     const secs = Math.floor(totalSeconds % 60);
 
-    return [hours, minutes, secs].join('');
+    return [hours, minutes, secs].map(el => el.toString().padStart(2, '0')).join('');
 }
 
 export const getProgress = (totalTime: Time, currentTime: Time) => {
