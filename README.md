@@ -8,11 +8,12 @@ A React Timer application inspired by the Timer in Android Clock app.
 
 | Timer Input | Countdown |
 | --- | --- |
-| ![timer](screenshots/timer.png) | ![countdown](screenshots/countdown.png) |
+| ![timer](screenshots/timer-input.png) | ![countdown](screenshots/countdown.png) |
 
 ## Built using
 
 - `React`
+- `TypeScript`
 - `Material Icons`
 - `CSS Grid Layout`
 - `CSS Flexbox`
