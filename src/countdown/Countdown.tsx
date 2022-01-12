@@ -5,11 +5,9 @@ import { Play } from '../common/Play';
 import { Time } from '../Timer.types';
 import {
   DEFAULT_PROGRESS,
-  formatTime,
   getProgress,
-  isTimeTruthy,
-  secondsToTime,
-  timeToSeconds,
+  inputTimeToSeconds,
+  secondsToHMS,
 } from '../Util';
 
 import './Countdown.css';
@@ -47,14 +45,14 @@ interface CountdownProps {
 }
 
 export const Countdown: FC<CountdownProps> = ({ startTime, onDelete }) => {
-  const [time, setTime] = useState<Time>(startTime);
+  const [remainingSeconds, setRemainingSeconds] = useState<number>(() => inputTimeToSeconds(startTime));
   const [pause, setPause] = useState(false);
   const [progress, setProgress] = useState(DEFAULT_PROGRESS);
 
   const timerRef = useRef<undefined | NodeJS.Timer>();
 
-  const [hours, minutes, seconds] = useMemo(() => formatTime(time), [time]);
-  const showPause = useMemo(() => isTimeTruthy(time), [time]);
+  const [hours, minutes, seconds] = useMemo(() => secondsToHMS(remainingSeconds), [remainingSeconds]);
+  const showPause = useMemo(() => remainingSeconds > 0, [remainingSeconds]);
 
   const clearTimer = () => {
     if (timerRef.current !== undefined) {
@@ -66,12 +64,12 @@ export const Countdown: FC<CountdownProps> = ({ startTime, onDelete }) => {
   const startTimer = useCallback(() => {
     clearTimer();
     timerRef.current = setInterval(() => {
-      setTime((prevTime) => {
-        if (!isTimeTruthy(prevTime)) {
+      setRemainingSeconds((prevSeconds) => {
+        if (prevSeconds <= 0) {
           clearTimer();
-          return prevTime;
+          return prevSeconds;
         }
-        return secondsToTime(timeToSeconds(prevTime) - 1);
+        return prevSeconds - 1;
       });
     }, 1000);
   }, []);
@@ -96,15 +94,19 @@ export const Countdown: FC<CountdownProps> = ({ startTime, onDelete }) => {
   }, [startTimer]);
 
   useEffect(() => {
-    setProgress(getProgress(startTime, time));
-  }, [startTime, time]);
+    setProgress(getProgress(inputTimeToSeconds(startTime), remainingSeconds));
+  }, [startTime, remainingSeconds]);
 
   return (
     <>
       <div className="countdown-container">
         <ProgressRing radius={115} stroke={4} progress={progress} />
         <time className={`countdown${pause ? ' pause' : ''}`}>
-          {hours}:{minutes}:{seconds}
+          <span>{hours}</span>
+          <span>:</span>
+          <span>{minutes}</span>
+          <span>:</span>
+          <span>{seconds}</span>
         </time>
       </div>
 

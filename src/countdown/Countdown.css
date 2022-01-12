@@ -16,10 +16,16 @@
 }
 
 .countdown-container .countdown {
+  inline-size: 75%;
+
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+
+  display: grid;
+  grid-template-columns: minmax(2ch, auto) auto 2ch auto 2ch;
+  justify-content: center;
 
   font-size: 2rem;
   font-weight: 500;

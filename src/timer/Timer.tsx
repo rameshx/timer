@@ -4,7 +4,7 @@ import { Backspace } from '../common/Backspace';
 import { Countdown } from '../countdown/Countdown';
 import { Numkey } from '../numkey/Numkey';
 import { Time } from '../Timer.types';
-import { formatTime, isTimeTruthy, MAX_TIME_LENGTH, NUMKEYS } from '../Util';
+import { formatInputTime, isTimeTruthy, INPUT_TIME_MAX_LENGTH, NUMKEYS } from '../Util';
 
 import './Timer.css';
 
@@ -12,7 +12,7 @@ export const Timer: FC = () => {
   const [time, setTime] = useState<Time>('');
   const [running, setRunning] = useState(false);
 
-  const [hours, minutes, seconds] = useMemo(() => formatTime(time), [time]);
+  const [hours, minutes, seconds] = useMemo(() => formatInputTime(time), [time]);
   const showStart = useMemo(
     () => isTimeTruthy(time) && !running,
     [time, running]
@@ -20,7 +20,7 @@ export const Timer: FC = () => {
 
   const handleNumkeyClick = (numkey: string) => {
     setTime((prevTime) => {
-      if (prevTime.length === MAX_TIME_LENGTH) return prevTime;
+      if (prevTime.length === INPUT_TIME_MAX_LENGTH) return prevTime;
       if (!prevTime && numkey === '0') return prevTime;
       return prevTime + numkey;
     });
